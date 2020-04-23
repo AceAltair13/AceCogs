@@ -9,13 +9,52 @@ A Small Minigame where main objective is to collect coins in limited number of m
 
 import msvcrt
 import random
-
-map = {}
+from enum import Enum
 
 
 class Cell:
-    def __init__(self, type):
-        pass
+    def __init__(self):
+        self.has = Pickup["empty"]
+        self.visible = False
+
+    def reveal(self):
+        self.visible = True
+
+    def collect(self):
+        self.has = Pickup["empty"]
+
+    def set_pickup(self, has):
+        self.has = has
+
+    def is_empty(self):
+        return self.has == Pickup["empty"]
+
+
+class Pickup(Enum):
+    empty = 0
+    coin = 1
+    power = 2
+    reveal = 3
+
+
+class CoinGame:
+    def __init__(self):
+        self.map = {}
+        for i in range(9):
+            for j in range(9):
+                self.map[(i, j)] = Cell()
+
+        def put_stuff(self, item, wt1, wt2):
+            self.qty = random.randint(self.wt1, self.wt2)
+            while self.qty:
+                self.x, self.y = random.randint(0, 8), random.randint(0, 8)
+                if self.map[(self.x, self.y)].is_empty():
+                    if self.x != 5 and self.y != 0:
+                        self.map[(self.x, self.y)].set_pickup(item)
+                        self.qty -= 1
+        put_stuff(self, Pickup['coin'], 35, 45)
+        put_stuff(self, Pickup['power'], 10, 15)
+        put_stuff(self, Pickup['reveal'], 0, 1)
 
 
 def get_key(check, *, print_keys=False):
@@ -35,38 +74,3 @@ def key_check(key):
     if key in KEYS:
         return key
     return None
-
-
-def make_map():
-    for i in range(9):
-        for j in range(9):
-            map[(i, j)] = Place().put_elements()
-    map[(5, 5)] = None
-    print(map)
-    coins = power = reveal = 0
-    for val in map.values():
-        if val == 'coin':
-            coins += 1
-        elif val == 'power':
-            power += 1
-        elif val == 'special':
-            reveal += 1
-    print(f"Coins: {coins}\nPower-Ups: {power}\nReveals: {reveal}")
-
-
-class Place:
-    @staticmethod
-    def put_elements():
-        if random.random() < 0.7:
-            chance = random.random()
-            if chance <= (2 / 99):
-                return 'special'
-            elif chance > (2 / 99) and chance < (20 / 99):
-                return 'power'
-            else:
-                return 'coin'
-        else:
-            return
-
-
-make_map()
