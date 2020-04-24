@@ -7,10 +7,8 @@ A Small Minigame where main objective is to collect coins in limited number of m
 [♣] : Reveal-Shard
 '''
 
-import msvcrt
 import random
 from enum import Enum
-import os
 from textwrap import dedent
 
 
@@ -26,14 +24,6 @@ class Pickup(Enum):
     coin = 1
     power = 2
     reveal = 3
-
-
-KEYS = {
-    'w': Direction.up,
-    'a': Direction.left,
-    's': Direction.down,
-    'd': Direction.right
-}
 
 
 class Cell:
@@ -173,35 +163,3 @@ class CoinGame:
             self.stats['coins'], self.stats['max_coins'], self.stats['power'],
             self.stats['max_power'], self.stats['reveal'], self.stats['max_reveal']
         ))
-
-
-def get_key(check, *, print_keys=False):
-    while True:
-        key = msvcrt.getch().decode()
-        if print_keys:
-            print(key, end='')
-        result = check(key)
-        if result is not None:
-            return result
-
-
-def check(key):
-    return KEYS.get(key)
-
-
-game = CoinGame()
-
-print(game.render())
-while True:
-    way = get_key(check)
-    game.move_player(way)
-    os.system('cls')
-    print(game.render())
-    if game.stats['coins'] == game.stats['max_coins']:
-        print("Congratulations, Your Win! Your Score: ", game.stats['coins'])
-        msvcrt.getch()
-        break
-    if game.stats['moves'] == 0:
-        print("Game Over!, Your Score: ", game.stats['coins'])
-        msvcrt.getch()
-        break
