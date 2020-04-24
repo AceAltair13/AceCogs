@@ -154,12 +154,12 @@ class CoinGame:
         # {} {} {} {} {} {} {} {} {} #
         # {} {} {} {} {} {} {} {} {} #
         #####################
-        Moves: {} / {}
+        Moves: {}
         Coins: {} / {}
         Power-Ups: {} / {}
         Reveals: {} / {}
         """.format(
-            *symbols, self.stats['moves'], self.stats['max_moves'],
+            *symbols, self.stats['moves'],
             self.stats['coins'], self.stats['max_coins'], self.stats['power'],
             self.stats['max_power'], self.stats['reveal'], self.stats['max_reveal']
         ))
