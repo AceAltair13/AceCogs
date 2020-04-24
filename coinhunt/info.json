@@ -1,0 +1,9 @@
+  
+{
+	"author": "acealtair13",
+	"description": "A fun coin collecting minigame.",
+	"install_msg": "Check out [p]help coingame to know the game details",
+	"short": "A coin collecting minigame.",
+	"tags": ["coin", "coins", "coinhunt"],
+	"type": "COG"
+}
