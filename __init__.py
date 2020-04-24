@@ -1,4 +1,5 @@
-from .coinrush import CoinRush
+from .coinhunt import CoinHunt
+
 
 def setup(bot):
-    bot.add_cog(CoinRush())
+    bot.add_cog(CoinHunt())
