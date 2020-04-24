@@ -1,4 +1,4 @@
 # CoinRush
 A fun minigame cog for discord RedBot 
 
-# Not Finished Yet!
+# It works as intended. May experience some bugs.
