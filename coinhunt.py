@@ -15,11 +15,11 @@ class CoinHunt(commands.Cog):
         """
         A Small Minigame where main objective is to collect coins in limited number of moves.
 
-        [♦] : Player
+        [@] : Player
         [·] : Visited
         [○] : Coin
         [+] : Power-Ups
-        [♣] : Reveal-Shard
+        [R] : Reveal-Shard
         """
 
         game = CoinGame()

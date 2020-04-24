@@ -1,10 +1,10 @@
 '''
 A Small Minigame where main objective is to collect coins in limited number of moves
-[♦] : Player
+[@] : Player
 [·] : Visited
 [○] : Coin
 [+] : Power-Ups
-[♣] : Reveal-Shard
+[R] : Reveal-Shard
 '''
 
 import random
@@ -49,7 +49,7 @@ class Cell:
             elif self.has == Pickup.power:
                 return '+'
             elif self.has == Pickup.reveal:
-                return '♣'
+                return 'R'
             elif self.has == Pickup.empty:
                 return '.'
         else:
@@ -140,7 +140,7 @@ class CoinGame:
                 if not (i, j) == self.player:
                     symbols.append(self.coinmap[(i, j)].show_symbol())
                 else:
-                    symbols.append('♦')
+                    symbols.append('@')
 
         return dedent("""
         #####################
