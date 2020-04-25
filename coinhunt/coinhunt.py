@@ -1,4 +1,5 @@
 from redbot.core import commands
+from redbot.core import Config
 from .coingame import CoinGame, Direction
 import discord
 from redbot.core.utils.predicates import ReactionPredicate
@@ -9,6 +10,8 @@ EMOJIS = ('❌', '◀️', '🔼', '🔽', '▶️')
 
 class CoinHunt(commands.Cog):
     """A Small Movement Based Coin Collecting Minigame"""
+    def __init__(self):
+        self.config = Config.get_conf(None, cog_name="Mucski", identifier=82838559382)
 
     @commands.command()
     async def coinhunt(self, ctx):
@@ -36,15 +39,15 @@ class CoinHunt(commands.Cog):
             await msg.edit(content=f"```\n{game.render()}\n```")
             pred = ReactionPredicate.with_emojis(EMOJIS, message=msg, user=ctx.author)
             try:
-                await ctx.bot.wait_for("reaction_add", check=pred)
+                await ctx.bot.wait_for("reaction_add", check=pred, timeout=60)
             except asyncio.TimeoutError:
                 await msg.clear_reactions()
-                return
+                break
             emoji = EMOJIS[pred.result]
             if emoji == '❌':
                 await msg.clear_reactions()
                 await msg.edit(content="```\nGame was cancelled\n```")
-                return
+                break
             elif emoji == '🔼':
                 direction = Direction.up
             elif emoji == '🔽':
@@ -59,11 +62,19 @@ class CoinHunt(commands.Cog):
             except discord.HTTPException:
                 pass
         score = game.stats['coins'] + game.stats['moves']
+        cookies = score * 10
+        user_cookies = await self.config.user(ctx.author).cookies()
+        user_cookies += cookies
+        await self.config.user(ctx.author).cookies.set(user_cookies)
         if game.stats['moves'] == 0:
-            await msg.edit(content=f"```\nUh oh, Game Over. Your score: {score}\n```")
-            await msg.clear_reactions()
-            return
+            await msg.edit(content=(
+                f"```\nUh oh, Game Over. Your score: {score}\n"
+                f"\nYou get {cookies} cookies for your performance.\n```"
+            ))
+
         elif game.stats['coins'] == game.stats['max_coins']:
-            await msg.edit(content=f"```\nCongratulations! You Win. Your score: {score}\n```")
-            await msg.clear_reactions()
-            return
+            await msg.edit(content=(
+                f"```\nCongratulations! You Win. Your score: {score}\n"
+                f"\nYou get {cookies} cookies for beating the game!```"
+            ))
+        await msg.clear_reactions()
