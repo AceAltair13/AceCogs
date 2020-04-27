@@ -15,8 +15,11 @@ class CoinHunt(commands.Cog):
         # Cookie rewards exclusive to Mucski cog, may change the currency
         # You may change the currency and rewards to your liking
 
-        self.config = Config.get_conf(None, cog_name="Mucski", identifier=82838559382)
         self.cog_loaded = bool(self.bot.get_cog("Mucski"))
+        if self.cog_loaded:
+            self.config = Config.get_conf(None, cog_name="Mucski", identifier=82838559382)
+        else:
+            self.config = None
 
     @commands.command()
     async def coinhunt(self, ctx):
