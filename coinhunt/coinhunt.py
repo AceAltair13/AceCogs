@@ -10,7 +10,8 @@ EMOJIS = ('❌', '◀️', '🔼', '🔽', '▶️')
 
 class CoinHunt(commands.Cog):
     """A Small Movement Based Coin Collecting Minigame"""
-    def __init__(self):
+    def __init__(self, bot):
+        self.bot = bot
 
         # Cookie rewards exclusive to Mucski cog, may change the currency
         # You may change the currency and rewards to your liking
