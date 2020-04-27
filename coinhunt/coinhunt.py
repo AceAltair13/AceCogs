@@ -11,7 +11,12 @@ EMOJIS = ('❌', '◀️', '🔼', '🔽', '▶️')
 class CoinHunt(commands.Cog):
     """A Small Movement Based Coin Collecting Minigame"""
     def __init__(self):
+
+        # Cookie rewards exclusive to Mucski cog, may change the currency
+        # You may change the currency and rewards to your liking
+
         self.config = Config.get_conf(None, cog_name="Mucski", identifier=82838559382)
+        self.cog_loaded = bool(self.bot.get_cog("Mucski"))
 
     @commands.command()
     async def coinhunt(self, ctx):
@@ -43,7 +48,7 @@ class CoinHunt(commands.Cog):
             except asyncio.TimeoutError:
                 await msg.clear_reactions()
                 break
-            emoji = EMOJIS[pred.result]
+            emoji = EMOJIS[int(pred.result)]
             if emoji == '❌':
                 await msg.clear_reactions()
                 await msg.edit(content="```\nGame was cancelled\n```")
@@ -62,19 +67,26 @@ class CoinHunt(commands.Cog):
             except discord.HTTPException:
                 pass
         score = game.stats['coins'] + game.stats['moves']
-        cookies = score * 10
-        user_cookies = await self.config.user(ctx.author).cookies()
-        user_cookies += cookies
-        await self.config.user(ctx.author).cookies.set(user_cookies)
+        if self.cog_loaded:
+            cookies = score * 10
+            user_cookies = await self.config.user(ctx.author).cookies()
+            user_cookies += cookies
+            await self.config.user(ctx.author).cookies.set(user_cookies)
         if game.stats['moves'] == 0:
-            await msg.edit(content=(
-                f"```\nUh oh, Game Over. Your score: {score}\n"
-                f"\nYou get {cookies} cookies for your performance.\n```"
-            ))
+            if self.cog_loaded:
+                await msg.edit(content=(
+                    f"```\nUh oh, Game Over. Your score: {score}\n"
+                    f"\nYou get {cookies} cookies for your performance.\n```"
+                ))
+            else:
+                await msg.edit(content=f"```\nUh oh, Game Over. Your score: {score}\n")
 
         elif game.stats['coins'] == game.stats['max_coins']:
-            await msg.edit(content=(
-                f"```\nCongratulations! You Win. Your score: {score}\n"
-                f"\nYou get {cookies} cookies for beating the game!```"
-            ))
+            if self.cog_loaded:
+                await msg.edit(content=(
+                    f"```\nCongratulations! You Win. Your score: {score}\n"
+                    f"\nYou get {cookies} cookies for beating the game!```"
+                ))
+            else:
+                await msg.edit(content=f"```\nCongratulations! You Win. Your score: {score}\n")
         await msg.clear_reactions()
