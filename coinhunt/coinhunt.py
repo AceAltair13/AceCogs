@@ -83,7 +83,7 @@ class CoinHunt(commands.Cog):
                     f"\nYou get {cookies} cookies for your performance.\n```"
                 ))
             else:
-                await msg.edit(content=f"```\nUh oh, Game Over. Your score: {score}\n")
+                await msg.edit(content=f"```\nUh oh, Game Over. Your score: {score}\n```")
 
         elif game.stats['coins'] == game.stats['max_coins']:
             if self.cog_loaded:
@@ -92,5 +92,5 @@ class CoinHunt(commands.Cog):
                     f"\nYou get {cookies} cookies for beating the game!```"
                 ))
             else:
-                await msg.edit(content=f"```\nCongratulations! You Win. Your score: {score}\n")
+                await msg.edit(content=f"```\nCongratulations! You Win. Your score: {score}\n```")
         await msg.clear_reactions()
