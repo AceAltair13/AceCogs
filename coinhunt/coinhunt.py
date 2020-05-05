@@ -18,7 +18,7 @@ class CoinHunt(commands.Cog):
 
         self.cog_loaded = bool(self.bot.get_cog("Mucski"))
         if self.cog_loaded:
-            self.config = Config.get_conf(None, cog_name="Mucski", identifier=82838559382)
+            self.config = Config.get_conf(None, cog_name="Mucski", identifier=28484827)
         else:
             self.config = None
 
@@ -71,7 +71,7 @@ class CoinHunt(commands.Cog):
             except discord.HTTPException:
                 pass
         score = game.stats['coins'] + game.stats['moves']
-        if self.cog_loaded:
+        if self.cog_loaded and bool(self.config):
             user_coins = await self.config.user(ctx.author).coins()
             user_coins += score
             await self.config.user(ctx.author).coins.set(user_coins)
@@ -85,7 +85,7 @@ class CoinHunt(commands.Cog):
                 await msg.edit(content=f"```\nUh oh, Game Over. Your score: {score}\n```")
 
         elif game.stats['coins'] == game.stats['max_coins']:
-            if self.cog_loaded:
+            if self.cog_loaded and bool(self.config):
                 await msg.edit(content=(
                     f"```\nCongratulations! You Win. Your score: {score}\n"
                     f"\nYou get {score} coins for beating the game!```"
