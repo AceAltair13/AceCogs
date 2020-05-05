@@ -72,15 +72,15 @@ class CoinHunt(commands.Cog):
                 pass
         score = game.stats['coins'] + game.stats['moves']
         if self.cog_loaded:
-            cookies = score * 10
-            user_cookies = await self.config.user(ctx.author).cookies()
-            user_cookies += cookies
-            await self.config.user(ctx.author).cookies.set(user_cookies)
+            coins = score * 10
+            user_coins = await self.config.user(ctx.author).coins()
+            user_coins += coins
+            await self.config.user(ctx.author).coins.set(user_coins)
         if game.stats['moves'] == 0:
             if self.cog_loaded:
                 await msg.edit(content=(
                     f"```\nUh oh, Game Over. Your score: {score}\n"
-                    f"\nYou get {cookies} cookies for your performance.\n```"
+                    f"\nYou get {coins} coins for your performance.\n```"
                 ))
             else:
                 await msg.edit(content=f"```\nUh oh, Game Over. Your score: {score}\n```")
@@ -89,7 +89,7 @@ class CoinHunt(commands.Cog):
             if self.cog_loaded:
                 await msg.edit(content=(
                     f"```\nCongratulations! You Win. Your score: {score}\n"
-                    f"\nYou get {cookies} cookies for beating the game!```"
+                    f"\nYou get {coins} coins for beating the game!```"
                 ))
             else:
                 await msg.edit(content=f"```\nCongratulations! You Win. Your score: {score}\n```")
