@@ -29,10 +29,10 @@ class Pickup(Enum):
 
 
 KEYS = {
-    'w': Direction.up,
-    'a': Direction.left,
-    's': Direction.down,
-    'd': Direction.right
+    b'w': Direction.up,
+    b'a': Direction.left,
+    b's': Direction.down,
+    b'd': Direction.right
 }
 
 
@@ -175,11 +175,9 @@ class CoinGame:
         ))
 
 
-def get_key(check, *, print_keys=False):
+def get_key(check):
     while True:
-        key = msvcrt.getch().decode()
-        if print_keys:
-            print(key, end='')
+        key = msvcrt.getch()
         result = check(key)
         if result is not None:
             return result
