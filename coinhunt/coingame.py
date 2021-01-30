@@ -91,7 +91,7 @@ class CoinGame:
 
         def put_stuff(self, item, wt1, wt2):
             qty = random.randint(wt1, wt2)
-            for i in range(qty):
+            for _ in range(qty):
                 cell = random.choice(empty_cells)
                 empty_cells.remove(cell)
                 cell.set_pickup(item)
