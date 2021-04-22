@@ -1,3 +1,3 @@
-# CoinHunt
-A fun minigame cog for discord RedBot as well as Windows
-## No copyright. You can forkyyy (o_O)
+# Ace Cogs
+
+This is my repository of all the custom Discord Redbot cogs that I create.

@@ -10,29 +10,13 @@ EMOJIS = ('❌', '◀️', '🔼', '🔽', '▶️')
 
 class CoinHunt(commands.Cog):
     """A Small Movement Based Coin Collecting Minigame"""
+
     def __init__(self, bot):
         self.bot = bot
 
-        # Cookie rewards exclusive to Mucski cog, may change the currency
-        # You may change the currency and rewards to your liking
-
-        self.cog_loaded = bool(self.bot.get_cog("Mucski"))
-        if self.cog_loaded:
-            self.config = Config.get_conf(None, cog_name="Mucski", identifier=28484827)
-        else:
-            self.config = None
-
     @commands.command()
     async def coinhunt(self, ctx):
-        """
-        A Small Minigame where main objective is to collect coins in limited number of moves.
-
-        [@] : Player
-        [·] : Visited
-        [○] : Coin
-        [+] : Power-Ups
-        [R] : Reveal-Shard
-        """
+        """Start a game of coinhunt"""
 
         game = CoinGame()
         msg = await ctx.send("```\nLoading...\n```")
@@ -71,25 +55,8 @@ class CoinHunt(commands.Cog):
             except discord.HTTPException:
                 pass
         score = game.stats['coins'] + game.stats['moves']
-        if self.cog_loaded and bool(self.config):
-            user_coins = await self.config.user(ctx.author).coins()
-            user_coins += score
-            await self.config.user(ctx.author).coins.set(user_coins)
         if game.stats['moves'] == 0:
-            if self.cog_loaded:
-                await msg.edit(content=(
-                    f"```\nUh oh, Game Over. Your score: {score}\n"
-                    f"\nYou get {score} coins for your performance.\n```"
-                ))
-            else:
-                await msg.edit(content=f"```\nUh oh, Game Over. Your score: {score}\n```")
-
+            await msg.edit(content=f"```\nUh oh, Game Over. Your score: {score}\n```")
         elif game.stats['coins'] == game.stats['max_coins']:
-            if self.cog_loaded and bool(self.config):
-                await msg.edit(content=(
-                    f"```\nCongratulations! You Win. Your score: {score}\n"
-                    f"\nYou get {score} coins for beating the game!```"
-                ))
-            else:
-                await msg.edit(content=f"```\nCongratulations! You Win. Your score: {score}\n```")
+            await msg.edit(content=f"```\nCongratulations! You Win. Your score: {score}\n```")
         await msg.clear_reactions()
